@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game2048/2048game.dart';
 import 'package:game2048/scoreview.dart';
 
 void main() => runApp(MyApp());
@@ -86,14 +87,7 @@ class MyApp extends StatelessWidget {
                     top: false,
                     bottom: true,
                     child: Center(
-                      child: AspectRatio(
-                        aspectRatio: 1,
-                        child: new Container(
-                            decoration: new BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          color: Colors.orange,
-                        )),
-                      ),
+                      child: GameView()
                     ),
                   ),
                 ),
