@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game2048/scoreview.dart';
 
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -14,24 +13,26 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.lightGreen,
         ),
         home: Scaffold(
+          backgroundColor: Colors.orange[50],
           body: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Expanded(
-                child: Container(
-                  child: SafeArea(
-                    top: true,
-                    bottom: false,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Row(
+              Container(
+                child: SafeArea(
+                  top: true,
+                  bottom: false,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
                           children: <Widget>[
                             Expanded(
                               child: Text(
                                 "2048",
-                                style: new TextStyle(
+                                style: TextStyle(
                                   fontSize: 36.0,
                                   color: Colors.black,
                                 ),
@@ -45,15 +46,20 @@ class MyApp extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Row(
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 0, bottom: 16.0, left: 16.0, right: 16),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
 //                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
-                            Text(
-                              "Join the numbers and get to the 2048 tile!",
-                              style: new TextStyle(
-
-                                color: Colors.black,
+                            Expanded(
+                              child: Text(
+                                "Join the numbers and get to the 2048 tile!",
+                                style: new TextStyle(
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
                             MaterialButton(
@@ -69,27 +75,25 @@ class MyApp extends StatelessWidget {
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              new AspectRatio(
-                aspectRatio: 1,
-                child: new Container(
-                    decoration: new BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  color: Colors.orange,
-                )),
-              ),
               Expanded(
                 child: Container(
-                  color: Colors.blue,
                   child: SafeArea(
                     top: false,
                     bottom: true,
-                    child: Container(
-                      color: Colors.red,
+                    child: Center(
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: new Container(
+                            decoration: new BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          color: Colors.orange,
+                        )),
+                      ),
                     ),
                   ),
                 ),
