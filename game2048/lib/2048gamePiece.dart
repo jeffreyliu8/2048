@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class GamePieceView extends StatefulWidget {
-  const GamePieceView({
+class GameBgPieceView extends StatefulWidget {
+  const GameBgPieceView({
     Key key,
     this.title: "title",
   }) : super(key: key);
@@ -10,27 +10,32 @@ class GamePieceView extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _GamePieceViewState();
+    return _GameBgPieceViewState();
   }
 }
 
-class _GamePieceViewState extends State<GamePieceView> {
-  int _score = 0;
-
-  void increaseScore() {
-    setState(() {
-      _score += 1;
-    });
-  }
+class _GameBgPieceViewState extends State<GameBgPieceView> {
+  GlobalKey _keyRed = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1,
-      child: Center(
-        child: new Container(
-          color: Colors.lightGreen,
-          child: Text("1")
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Material(
+          key: _keyRed,
+          color: Colors.yellow,
+          child: InkWell(
+            onTap: () {
+              final RenderBox renderBoxRed =
+                  _keyRed.currentContext.findRenderObject();
+              final sizeRed = renderBoxRed.size;
+              print("SIZE of Red: $sizeRed");
+              final positionRed = renderBoxRed.localToGlobal(Offset.zero);
+              print("POSITION of Red: $positionRed ");
+            },
+          ),
         ),
       ),
     );
