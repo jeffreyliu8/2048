@@ -87,7 +87,10 @@ class MyApp extends StatelessWidget {
                     top: false,
                     bottom: true,
                     child: Center(
-                      child: GameView()
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: GameView(),
+                      )
                     ),
                   ),
                 ),

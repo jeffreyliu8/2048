@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game2048/2048gamePiece.dart';
 import 'package:swipedetector/swipedetector.dart';
 
 class GameView extends StatefulWidget {
@@ -26,27 +27,61 @@ class _GameViewState extends State<GameView> {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1,
-      child: SwipeDetector(
-        child: new Container(
-          decoration: new BoxDecoration(
-            shape: BoxShape.rectangle,
-            color: Colors.orange,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8.0),
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: SwipeDetector(
+          child: new Container(
+            color: Colors.redAccent[150],
+            child: Table(
+              border: TableBorder.all(
+                color: Colors.orange,
+                width: 8,
+              ),
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              defaultColumnWidth: IntrinsicColumnWidth(),
+              children: [
+                TableRow(children: [
+                  GamePieceView(),
+                  GamePieceView(),
+                  GamePieceView(),
+                  GamePieceView(),
+                ]),
+                TableRow(children: [
+                  GamePieceView(),
+                  GamePieceView(),
+                  GamePieceView(),
+                  GamePieceView(),
+                ]),
+                TableRow(children: [
+                  GamePieceView(),
+                  GamePieceView(),
+                  GamePieceView(),
+                  GamePieceView(),
+                ]),
+                TableRow(children: [
+                  GamePieceView(),
+                  GamePieceView(),
+                  GamePieceView(),
+                  GamePieceView(),
+                ]),
+              ],
+            ),
           ),
+          onSwipeUp: () {
+            print("Up");
+          },
+          onSwipeDown: () {
+            print("down");
+          },
+          onSwipeLeft: () {
+            print("left");
+          },
+          onSwipeRight: () {
+            print("right");
+          },
         ),
-        onSwipeUp: () {
-          print("Up");
-        },
-        onSwipeDown: () {
-          print("down");
-        },
-        onSwipeLeft: () {
-          print("left");
-        },
-        onSwipeRight: () {
-          print("right");
-        },
       ),
     );
   }
