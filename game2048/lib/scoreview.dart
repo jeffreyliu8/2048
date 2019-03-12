@@ -1,27 +1,14 @@
 import 'package:flutter/material.dart';
 
-class ScoreView extends StatefulWidget {
+class ScoreView extends StatelessWidget {
   const ScoreView({
     Key key,
     this.title: "title",
+    this.score: 0,
   }) : super(key: key);
 
   final String title;
-
-  @override
-  State<StatefulWidget> createState() {
-    return _ScoreViewState();
-  }
-}
-
-class _ScoreViewState extends State<ScoreView> {
-  int _score = 0;
-
-  void increaseScore() {
-    setState(() {
-      _score += 1;
-    });
-  }
+  final int score;
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +22,8 @@ class _ScoreViewState extends State<ScoreView> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: <Widget>[
-                  Text(widget.title),
-                  Text(_score.toString()),
+                  Text("$title"),
+                  Text("$score"),
                 ],
               ),
             )),

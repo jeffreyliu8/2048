@@ -14,11 +14,11 @@ class GameView extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _GameViewState();
+    return GameViewState();
   }
 }
 
-class _GameViewState extends State<GameView> {
+class GameViewState extends State<GameView> {
   int _score = 0;
 
   void newGame() {
