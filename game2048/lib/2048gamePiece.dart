@@ -5,12 +5,12 @@ class GameBgPieceView extends StatefulWidget {
     Key key,
     this.row,
     this.col,
-    this.onClickCallback,
+    this.onRendered,
   }) : super(key: key);
 
   final int row;
   final int col;
-  final ValueSetter<RenderBox> onClickCallback;
+  final Function(int, int, RenderBox) onRendered;
 
   @override
   State<StatefulWidget> createState() {
@@ -23,20 +23,27 @@ class _GameBgPieceViewState extends State<GameBgPieceView> {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
+    Widget result = AspectRatio(
       aspectRatio: 1,
       child: Padding(
         padding: const EdgeInsets.all(4.0),
-        child: Material(
+        child: Container(
           key: _keyRed,
           color: Colors.yellow,
-          child: InkWell(
-            onTap: () {
-              widget.onClickCallback(_keyRed.currentContext.findRenderObject());
-            },
-          ),
         ),
       ),
     );
+    return result;
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    super.initState();
+  }
+
+  _afterLayout(_) {
+    widget.onRendered(
+        widget.row, widget.col, _keyRed.currentContext.findRenderObject());
   }
 }
