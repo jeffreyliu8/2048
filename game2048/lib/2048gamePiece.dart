@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
 class GameBgPieceView extends StatefulWidget {
-  const GameBgPieceView({
+  GameBgPieceView({
     Key key,
-    this.title: "title",
+    this.row,
+    this.col,
+    this.onClickCallback,
   }) : super(key: key);
 
-  final String title;
+  final int row;
+  final int col;
+  final ValueSetter<RenderBox> onClickCallback;
 
   @override
   State<StatefulWidget> createState() {
@@ -28,12 +32,7 @@ class _GameBgPieceViewState extends State<GameBgPieceView> {
           color: Colors.yellow,
           child: InkWell(
             onTap: () {
-              final RenderBox renderBoxRed =
-                  _keyRed.currentContext.findRenderObject();
-              final sizeRed = renderBoxRed.size;
-              print("SIZE of Red: $sizeRed");
-              final positionRed = renderBoxRed.localToGlobal(Offset.zero);
-              print("POSITION of Red: $positionRed ");
+              widget.onClickCallback(_keyRed.currentContext.findRenderObject());
             },
           ),
         ),

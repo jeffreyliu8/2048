@@ -40,28 +40,172 @@ class _GameViewState extends State<GameView> {
               defaultColumnWidth: IntrinsicColumnWidth(),
               children: [
                 TableRow(children: [
-                  GameBgPieceView(),
-                  GameBgPieceView(),
-                  GameBgPieceView(),
-                  GameBgPieceView(),
+                  GameBgPieceView(
+                    row: 3,
+                    col: 0,
+                    onClickCallback: (RenderBox r) {
+                      final sizeRed = r.size;
+                      print("SIZE of Red: $sizeRed");
+                      final positionRed = r.localToGlobal(Offset.zero);
+                      print("POSITION of Red: $positionRed ");
+                    },
+                  ),
+                  GameBgPieceView(
+                    row: 3,
+                    col: 1,
+                    onClickCallback: (RenderBox r) {
+                      final sizeRed = r.size;
+                      print("SIZE of Red: $sizeRed");
+                      final positionRed = r.localToGlobal(Offset.zero);
+                      print("POSITION of Red: $positionRed ");
+                    },
+                  ),
+                  GameBgPieceView(
+                    row: 3,
+                    col: 2,
+                    onClickCallback: (RenderBox r) {
+                      final sizeRed = r.size;
+                      print("SIZE of Red: $sizeRed");
+                      final positionRed = r.localToGlobal(Offset.zero);
+                      print("POSITION of Red: $positionRed ");
+                    },
+                  ),
+                  GameBgPieceView(
+                    row: 3,
+                    col: 3,
+                    onClickCallback: (RenderBox r) {
+                      final sizeRed = r.size;
+                      print("SIZE of Red: $sizeRed");
+                      final positionRed = r.localToGlobal(Offset.zero);
+                      print("POSITION of Red: $positionRed ");
+                    },
+                  ),
                 ]),
                 TableRow(children: [
-                  GameBgPieceView(),
-                  GameBgPieceView(),
-                  GameBgPieceView(),
-                  GameBgPieceView(),
+                  GameBgPieceView(
+                    row: 2,
+                    col: 0,
+                    onClickCallback: (RenderBox r) {
+                      final sizeRed = r.size;
+                      print("SIZE of Red: $sizeRed");
+                      final positionRed = r.localToGlobal(Offset.zero);
+                      print("POSITION of Red: $positionRed ");
+                    },
+                  ),
+                  GameBgPieceView(
+                    row: 2,
+                    col: 1,
+                    onClickCallback: (RenderBox r) {
+                      final sizeRed = r.size;
+                      print("SIZE of Red: $sizeRed");
+                      final positionRed = r.localToGlobal(Offset.zero);
+                      print("POSITION of Red: $positionRed ");
+                    },
+                  ),
+                  GameBgPieceView(
+                    row: 2,
+                    col: 2,
+                    onClickCallback: (RenderBox r) {
+                      final sizeRed = r.size;
+                      print("SIZE of Red: $sizeRed");
+                      final positionRed = r.localToGlobal(Offset.zero);
+                      print("POSITION of Red: $positionRed ");
+                    },
+                  ),
+                  GameBgPieceView(
+                    row: 2,
+                    col: 3,
+                    onClickCallback: (RenderBox r) {
+                      final sizeRed = r.size;
+                      print("SIZE of Red: $sizeRed");
+                      final positionRed = r.localToGlobal(Offset.zero);
+                      print("POSITION of Red: $positionRed ");
+                    },
+                  ),
                 ]),
                 TableRow(children: [
-                  GameBgPieceView(),
-                  GameBgPieceView(),
-                  GameBgPieceView(),
-                  GameBgPieceView(),
+                  GameBgPieceView(
+                    row: 1,
+                    col: 0,
+                    onClickCallback: (RenderBox r) {
+                      final sizeRed = r.size;
+                      print("SIZE of Red: $sizeRed");
+                      final positionRed = r.localToGlobal(Offset.zero);
+                      print("POSITION of Red: $positionRed ");
+                    },
+                  ),
+                  GameBgPieceView(
+                    row: 1,
+                    col: 1,
+                    onClickCallback: (RenderBox r) {
+                      final sizeRed = r.size;
+                      print("SIZE of Red: $sizeRed");
+                      final positionRed = r.localToGlobal(Offset.zero);
+                      print("POSITION of Red: $positionRed ");
+                    },
+                  ),
+                  GameBgPieceView(
+                    row: 1,
+                    col: 2,
+                    onClickCallback: (RenderBox r) {
+                      final sizeRed = r.size;
+                      print("SIZE of Red: $sizeRed");
+                      final positionRed = r.localToGlobal(Offset.zero);
+                      print("POSITION of Red: $positionRed ");
+                    },
+                  ),
+                  GameBgPieceView(
+                    row: 1,
+                    col: 3,
+                    onClickCallback: (RenderBox r) {
+                      final sizeRed = r.size;
+                      print("SIZE of Red: $sizeRed");
+                      final positionRed = r.localToGlobal(Offset.zero);
+                      print("POSITION of Red: $positionRed ");
+                    },
+                  ),
                 ]),
                 TableRow(children: [
-                  GameBgPieceView(),
-                  GameBgPieceView(),
-                  GameBgPieceView(),
-                  GameBgPieceView(),
+                  GameBgPieceView(
+                    row: 0,
+                    col: 0,
+                    onClickCallback: (RenderBox r) {
+                      final sizeRed = r.size;
+                      print("SIZE of Red: $sizeRed");
+                      final positionRed = r.localToGlobal(Offset.zero);
+                      print("POSITION of Red: $positionRed ");
+                    },
+                  ),
+                  GameBgPieceView(
+                    row: 0,
+                    col: 1,
+                    onClickCallback: (RenderBox r) {
+                      final sizeRed = r.size;
+                      print("SIZE of Red: $sizeRed");
+                      final positionRed = r.localToGlobal(Offset.zero);
+                      print("POSITION of Red: $positionRed ");
+                    },
+                  ),
+                  GameBgPieceView(
+                    row: 0,
+                    col: 2,
+                    onClickCallback: (RenderBox r) {
+                      final sizeRed = r.size;
+                      print("SIZE of Red: $sizeRed");
+                      final positionRed = r.localToGlobal(Offset.zero);
+                      print("POSITION of Red: $positionRed ");
+                    },
+                  ),
+                  GameBgPieceView(
+                    row: 0,
+                    col: 3,
+                    onClickCallback: (RenderBox r) {
+                      final sizeRed = r.size;
+                      print("SIZE of Red: $sizeRed");
+                      final positionRed = r.localToGlobal(Offset.zero);
+                      print("POSITION of Red: $positionRed ");
+                    },
+                  ),
                 ]),
               ],
             ),
