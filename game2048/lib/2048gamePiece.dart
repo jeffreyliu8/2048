@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+typedef void RenderedCallback(int row, int col, RenderBox box);
+
 class GameBgPieceView extends StatefulWidget {
   GameBgPieceView({
     Key key,
@@ -10,7 +12,7 @@ class GameBgPieceView extends StatefulWidget {
 
   final int row;
   final int col;
-  final Function(int, int, RenderBox) onRendered;
+  final RenderedCallback onRendered;
 
   @override
   State<StatefulWidget> createState() {
@@ -19,7 +21,7 @@ class GameBgPieceView extends StatefulWidget {
 }
 
 class _GameBgPieceViewState extends State<GameBgPieceView> {
-  GlobalKey _keyRed = GlobalKey();
+  GlobalKey _key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class _GameBgPieceViewState extends State<GameBgPieceView> {
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Container(
-          key: _keyRed,
+          key: _key,
           color: Colors.yellow,
         ),
       ),
@@ -43,7 +45,9 @@ class _GameBgPieceViewState extends State<GameBgPieceView> {
   }
 
   _afterLayout(_) {
-    widget.onRendered(
-        widget.row, widget.col, _keyRed.currentContext.findRenderObject());
+    if (widget.onRendered != null) {
+      widget.onRendered(
+          widget.row, widget.col, _key.currentContext.findRenderObject());
+    }
   }
 }

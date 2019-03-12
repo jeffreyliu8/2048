@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:game2048/2048gamePiece.dart';
 import 'package:swipedetector/swipedetector.dart';
 
+typedef void ScoreChangedCallback(int score);
+
 class GameView extends StatefulWidget {
   const GameView({
     Key key,
-    this.title: "title",
+    this.onScoreChanged,
   }) : super(key: key);
 
-  final String title;
+  final ScoreChangedCallback onScoreChanged;
 
   @override
   State<StatefulWidget> createState() {
@@ -19,9 +21,21 @@ class GameView extends StatefulWidget {
 class _GameViewState extends State<GameView> {
   int _score = 0;
 
+  void newGame() {
+    setState(() {
+      _score = 0;
+      if (widget.onScoreChanged != null) {
+        widget.onScoreChanged(_score);
+      }
+    });
+  }
+
   void increaseScore() {
     setState(() {
       _score += 1;
+      if (widget.onScoreChanged != null) {
+        widget.onScoreChanged(_score);
+      }
     });
   }
 
@@ -164,9 +178,11 @@ class _GameViewState extends State<GameView> {
           ),
           onSwipeUp: () {
             print("Up");
+            increaseScore();
           },
           onSwipeDown: () {
             print("down");
+            newGame();
           },
           onSwipeLeft: () {
             print("left");
