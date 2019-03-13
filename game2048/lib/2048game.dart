@@ -20,6 +20,17 @@ class GameView extends StatefulWidget {
 
 class GameViewState extends State<GameView> {
   int _score = 0;
+  List<Widget> v = [];
+  List<List<String>> gridState = [
+    ["", "T", "", "", "", "", "", "P2"],
+    ["", "", "", "T", "", "", "", ""],
+    ["B", "T", "", "", "", "B", "", ""],
+    ["", "", "", "B", "", "", "", "T"],
+    ["", "", "T", "", "", "T", "", ""],
+    ["", "", "", "", "", "", "", "B"],
+    ["", "", "", "", "T", "", "", ""],
+    ["P1", "", "", "", "", "", "T", ""],
+  ];
 
   void newGame() {
     setState(() {
@@ -39,155 +50,49 @@ class GameViewState extends State<GameView> {
     });
   }
 
+  void addTile() {
+    setState(() {
+      v.add(
+        Positioned(
+          child: FlutterLogo(),
+        ),
+      );
+    });
+  }
+
+  void clearTiles() {
+    setState(() {
+      v.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    int gridStateLength = gridState.length;
     return SwipeDetector(
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8.0),
         child: AspectRatio(
           aspectRatio: 1,
           child: Container(
-            padding: EdgeInsets.all(4.0),
+            padding: const EdgeInsets.all(4.0),
             color: Colors.orange,
-            child:
-              Stack(
-                children: <Widget>[
-                  SizedBox.expand(
-                    child: Table(
-                      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                      defaultColumnWidth: IntrinsicColumnWidth(),
-                      children: [
-                        TableRow(children: [
-                          GameBgPieceView(
-                            row: 3,
-                            col: 0,
-                            onRendered: (int row, int col, RenderBox r) {
-                              printValue(row, col, r);
-                            },
-                          ),
-                          GameBgPieceView(
-                            row: 3,
-                            col: 1,
-                            onRendered: (int row, int col, RenderBox r) {
-                              printValue(row, col, r);
-                            },
-                          ),
-                          GameBgPieceView(
-                            row: 3,
-                            col: 2,
-                            onRendered: (int row, int col, RenderBox r) {
-                              printValue(row, col, r);
-                            },
-                          ),
-                          GameBgPieceView(
-                            row: 3,
-                            col: 3,
-                            onRendered: (int row, int col, RenderBox r) {
-                              printValue(row, col, r);
-                            },
-                          ),
-                        ]),
-                        TableRow(children: [
-                          GameBgPieceView(
-                            row: 2,
-                            col: 0,
-                            onRendered: (int row, int col, RenderBox r) {
-                              printValue(row, col, r);
-                            },
-                          ),
-                          GameBgPieceView(
-                            row: 2,
-                            col: 1,
-                            onRendered: (int row, int col, RenderBox r) {
-                              printValue(row, col, r);
-                            },
-                          ),
-                          GameBgPieceView(
-                            row: 2,
-                            col: 2,
-                            onRendered: (int row, int col, RenderBox r) {
-                              printValue(row, col, r);
-                            },
-                          ),
-                          GameBgPieceView(
-                            row: 2,
-                            col: 3,
-                            onRendered: (int row, int col, RenderBox r) {
-                              printValue(row, col, r);
-                            },
-                          ),
-                        ]),
-                        TableRow(children: [
-                          GameBgPieceView(
-                            row: 1,
-                            col: 0,
-                            onRendered: (int row, int col, RenderBox r) {
-                              printValue(row, col, r);
-                            },
-                          ),
-                          GameBgPieceView(
-                            row: 1,
-                            col: 1,
-                            onRendered: (int row, int col, RenderBox r) {
-                              printValue(row, col, r);
-                            },
-                          ),
-                          GameBgPieceView(
-                            row: 1,
-                            col: 2,
-                            onRendered: (int row, int col, RenderBox r) {
-                              printValue(row, col, r);
-                            },
-                          ),
-                          GameBgPieceView(
-                            row: 1,
-                            col: 3,
-                            onRendered: (int row, int col, RenderBox r) {
-                              printValue(row, col, r);
-                            },
-                          ),
-                        ]),
-                        TableRow(children: [
-                          GameBgPieceView(
-                            row: 0,
-                            col: 0,
-                            onRendered: (int row, int col, RenderBox r) {
-                              printValue(row, col, r);
-                            },
-                          ),
-                          GameBgPieceView(
-                            row: 0,
-                            col: 1,
-                            onRendered: (int row, int col, RenderBox r) {
-                              printValue(row, col, r);
-                            },
-                          ),
-                          GameBgPieceView(
-                            row: 0,
-                            col: 2,
-                            onRendered: (int row, int col, RenderBox r) {
-                              printValue(row, col, r);
-                            },
-                          ),
-                          GameBgPieceView(
-                            row: 0,
-                            col: 3,
-                            onRendered: (int row, int col, RenderBox r) {
-                              printValue(row, col, r);
-                            },
-                          ),
-                        ]),
-                      ],
-                    ),
+            child: Stack(
+              children: <Widget>[
+                GridView.builder(
+                  padding: EdgeInsets.all(0),
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: gridStateLength,
                   ),
-                  Positioned(
-                    child: Container(
-                      color: Colors.transparent,
-                    ),
-                  ),
-                ],
-              )
-
+                  itemBuilder: _buildGridItems,
+                  itemCount: gridStateLength * gridStateLength,
+                ),
+                Stack(
+                  children: v,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -201,9 +106,36 @@ class GameViewState extends State<GameView> {
       },
       onSwipeLeft: () {
         print("left");
+        addTile();
       },
       onSwipeRight: () {
         print("right");
+        clearTiles();
+      },
+      swipeConfiguration: SwipeConfiguration(
+          verticalSwipeMinVelocity: 15.0,
+          verticalSwipeMinDisplacement: 15.0,
+          verticalSwipeMaxWidthThreshold: 25.0,
+          horizontalSwipeMaxHeightThreshold: 15.0,
+          horizontalSwipeMinDisplacement: 15.0,
+          horizontalSwipeMinVelocity: 25.0),
+    );
+  }
+
+  Widget _buildGridItems(BuildContext context, int index) {
+    int gridStateLength = gridState.length;
+    int x, y = 0;
+    x = (index / gridStateLength).floor();
+    y = (index % gridStateLength);
+    return _buildGridItem(x, y);
+  }
+
+  Widget _buildGridItem(int x, int y) {
+    return GameBgPieceView(
+      row: y,
+      col: x,
+      onRendered: (int row, int col, RenderBox r) {
+        printValue(row, col, r);
       },
     );
   }
