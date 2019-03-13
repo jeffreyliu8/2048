@@ -41,157 +41,170 @@ class GameViewState extends State<GameView> {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8.0),
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: SwipeDetector(
-          child: new Container(
+    return SwipeDetector(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8.0),
+        child: AspectRatio(
+          aspectRatio: 1,
+          child: Container(
             padding: EdgeInsets.all(4.0),
             color: Colors.orange,
-            child: Table(
-              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-              defaultColumnWidth: IntrinsicColumnWidth(),
-              children: [
-                TableRow(children: [
-                  GameBgPieceView(
-                    row: 3,
-                    col: 0,
-                    onRendered: (int row, int col, RenderBox r) {
-                      printValue(row, col, r);
-                    },
+            child:
+              Stack(
+                children: <Widget>[
+                  SizedBox.expand(
+                    child: Table(
+                      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                      defaultColumnWidth: IntrinsicColumnWidth(),
+                      children: [
+                        TableRow(children: [
+                          GameBgPieceView(
+                            row: 3,
+                            col: 0,
+                            onRendered: (int row, int col, RenderBox r) {
+                              printValue(row, col, r);
+                            },
+                          ),
+                          GameBgPieceView(
+                            row: 3,
+                            col: 1,
+                            onRendered: (int row, int col, RenderBox r) {
+                              printValue(row, col, r);
+                            },
+                          ),
+                          GameBgPieceView(
+                            row: 3,
+                            col: 2,
+                            onRendered: (int row, int col, RenderBox r) {
+                              printValue(row, col, r);
+                            },
+                          ),
+                          GameBgPieceView(
+                            row: 3,
+                            col: 3,
+                            onRendered: (int row, int col, RenderBox r) {
+                              printValue(row, col, r);
+                            },
+                          ),
+                        ]),
+                        TableRow(children: [
+                          GameBgPieceView(
+                            row: 2,
+                            col: 0,
+                            onRendered: (int row, int col, RenderBox r) {
+                              printValue(row, col, r);
+                            },
+                          ),
+                          GameBgPieceView(
+                            row: 2,
+                            col: 1,
+                            onRendered: (int row, int col, RenderBox r) {
+                              printValue(row, col, r);
+                            },
+                          ),
+                          GameBgPieceView(
+                            row: 2,
+                            col: 2,
+                            onRendered: (int row, int col, RenderBox r) {
+                              printValue(row, col, r);
+                            },
+                          ),
+                          GameBgPieceView(
+                            row: 2,
+                            col: 3,
+                            onRendered: (int row, int col, RenderBox r) {
+                              printValue(row, col, r);
+                            },
+                          ),
+                        ]),
+                        TableRow(children: [
+                          GameBgPieceView(
+                            row: 1,
+                            col: 0,
+                            onRendered: (int row, int col, RenderBox r) {
+                              printValue(row, col, r);
+                            },
+                          ),
+                          GameBgPieceView(
+                            row: 1,
+                            col: 1,
+                            onRendered: (int row, int col, RenderBox r) {
+                              printValue(row, col, r);
+                            },
+                          ),
+                          GameBgPieceView(
+                            row: 1,
+                            col: 2,
+                            onRendered: (int row, int col, RenderBox r) {
+                              printValue(row, col, r);
+                            },
+                          ),
+                          GameBgPieceView(
+                            row: 1,
+                            col: 3,
+                            onRendered: (int row, int col, RenderBox r) {
+                              printValue(row, col, r);
+                            },
+                          ),
+                        ]),
+                        TableRow(children: [
+                          GameBgPieceView(
+                            row: 0,
+                            col: 0,
+                            onRendered: (int row, int col, RenderBox r) {
+                              printValue(row, col, r);
+                            },
+                          ),
+                          GameBgPieceView(
+                            row: 0,
+                            col: 1,
+                            onRendered: (int row, int col, RenderBox r) {
+                              printValue(row, col, r);
+                            },
+                          ),
+                          GameBgPieceView(
+                            row: 0,
+                            col: 2,
+                            onRendered: (int row, int col, RenderBox r) {
+                              printValue(row, col, r);
+                            },
+                          ),
+                          GameBgPieceView(
+                            row: 0,
+                            col: 3,
+                            onRendered: (int row, int col, RenderBox r) {
+                              printValue(row, col, r);
+                            },
+                          ),
+                        ]),
+                      ],
+                    ),
                   ),
-                  GameBgPieceView(
-                    row: 3,
-                    col: 1,
-                    onRendered: (int row, int col, RenderBox r) {
-                      printValue(row, col, r);
-                    },
+                  Positioned(
+                    child: Container(
+                      color: Colors.transparent,
+                    ),
                   ),
-                  GameBgPieceView(
-                    row: 3,
-                    col: 2,
-                    onRendered: (int row, int col, RenderBox r) {
-                      printValue(row, col, r);
-                    },
-                  ),
-                  GameBgPieceView(
-                    row: 3,
-                    col: 3,
-                    onRendered: (int row, int col, RenderBox r) {
-                      printValue(row, col, r);
-                    },
-                  ),
-                ]),
-                TableRow(children: [
-                  GameBgPieceView(
-                    row: 2,
-                    col: 0,
-                    onRendered: (int row, int col, RenderBox r) {
-                      printValue(row, col, r);
-                    },
-                  ),
-                  GameBgPieceView(
-                    row: 2,
-                    col: 1,
-                    onRendered: (int row, int col, RenderBox r) {
-                      printValue(row, col, r);
-                    },
-                  ),
-                  GameBgPieceView(
-                    row: 2,
-                    col: 2,
-                    onRendered: (int row, int col, RenderBox r) {
-                      printValue(row, col, r);
-                    },
-                  ),
-                  GameBgPieceView(
-                    row: 2,
-                    col: 3,
-                    onRendered: (int row, int col, RenderBox r) {
-                      printValue(row, col, r);
-                    },
-                  ),
-                ]),
-                TableRow(children: [
-                  GameBgPieceView(
-                    row: 1,
-                    col: 0,
-                    onRendered: (int row, int col, RenderBox r) {
-                      printValue(row, col, r);
-                    },
-                  ),
-                  GameBgPieceView(
-                    row: 1,
-                    col: 1,
-                    onRendered: (int row, int col, RenderBox r) {
-                      printValue(row, col, r);
-                    },
-                  ),
-                  GameBgPieceView(
-                    row: 1,
-                    col: 2,
-                    onRendered: (int row, int col, RenderBox r) {
-                      printValue(row, col, r);
-                    },
-                  ),
-                  GameBgPieceView(
-                    row: 1,
-                    col: 3,
-                    onRendered: (int row, int col, RenderBox r) {
-                      printValue(row, col, r);
-                    },
-                  ),
-                ]),
-                TableRow(children: [
-                  GameBgPieceView(
-                    row: 0,
-                    col: 0,
-                    onRendered: (int row, int col, RenderBox r) {
-                      printValue(row, col, r);
-                    },
-                  ),
-                  GameBgPieceView(
-                    row: 0,
-                    col: 1,
-                    onRendered: (int row, int col, RenderBox r) {
-                      printValue(row, col, r);
-                    },
-                  ),
-                  GameBgPieceView(
-                    row: 0,
-                    col: 2,
-                    onRendered: (int row, int col, RenderBox r) {
-                      printValue(row, col, r);
-                    },
-                  ),
-                  GameBgPieceView(
-                    row: 0,
-                    col: 3,
-                    onRendered: (int row, int col, RenderBox r) {
-                      printValue(row, col, r);
-                    },
-                  ),
-                ]),
-              ],
-            ),
+                ],
+              )
+
           ),
-          onSwipeUp: () {
-            print("Up");
-            increaseScore();
-          },
-          onSwipeDown: () {
-            print("down");
-            newGame();
-          },
-          onSwipeLeft: () {
-            print("left");
-          },
-          onSwipeRight: () {
-            print("right");
-          },
         ),
       ),
+      onSwipeUp: () {
+        print("Up");
+        increaseScore();
+      },
+      onSwipeDown: () {
+        print("down");
+        newGame();
+      },
+      onSwipeLeft: () {
+        print("left");
+      },
+      onSwipeRight: () {
+        print("right");
+      },
     );
   }
 
