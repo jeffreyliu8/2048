@@ -16,12 +16,18 @@ class GameBgPieceView extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _GameBgPieceViewState();
+    return _GameBgPieceViewState(row, col, onRendered);
   }
 }
 
 class _GameBgPieceViewState extends State<GameBgPieceView> {
   GlobalKey _key = GlobalKey();
+
+  int row;
+  int col;
+  RenderedCallback callback;
+
+  _GameBgPieceViewState(this.row, this.col, this.callback);
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +51,8 @@ class _GameBgPieceViewState extends State<GameBgPieceView> {
   }
 
   _afterLayout(_) {
-    if (widget.onRendered != null) {
-      widget.onRendered(
-          widget.row, widget.col, _key.currentContext.findRenderObject());
+    if (callback != null) {
+      callback(row, col, _key.currentContext.findRenderObject());
     }
   }
 }

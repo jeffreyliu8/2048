@@ -16,19 +16,32 @@ class GameView extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return GameViewState();
+    return GameViewState(squareLength, onScoreChanged);
   }
 }
 
 class GameViewState extends State<GameView> {
+  int _squareLength = 0;
   int _score = 0;
-  List<Widget> v = [];
+  List<Widget> _v = [];
+  List<List<RenderBox>> _gridSizes = [];
+  ScoreChangedCallback _onScoreChanged;
+
+  GameViewState(this._squareLength, this._onScoreChanged) {
+    List<RenderBox> temp = [];
+    for (var i = 0; i < _squareLength; i++) {
+      temp.add(null);
+    }
+    for (var i = 0; i < _squareLength; i++) {
+      _gridSizes.add(temp);
+    }
+  }
 
   void newGame() {
     setState(() {
       _score = 0;
-      if (widget.onScoreChanged != null) {
-        widget.onScoreChanged(_score);
+      if (_onScoreChanged != null) {
+        _onScoreChanged(_score);
       }
     });
   }
@@ -36,15 +49,15 @@ class GameViewState extends State<GameView> {
   void increaseScore() {
     setState(() {
       _score += 1;
-      if (widget.onScoreChanged != null) {
-        widget.onScoreChanged(_score);
+      if (_onScoreChanged != null) {
+        _onScoreChanged(_score);
       }
     });
   }
 
   void addTile() {
     setState(() {
-      v.add(
+      _v.add(
         Positioned(
           child: FlutterLogo(),
         ),
@@ -54,7 +67,7 @@ class GameViewState extends State<GameView> {
 
   void clearTiles() {
     setState(() {
-      v.clear();
+      _v.clear();
     });
   }
 
@@ -74,13 +87,13 @@ class GameViewState extends State<GameView> {
                   padding: EdgeInsets.all(0),
                   physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: widget.squareLength,
+                    crossAxisCount: _squareLength,
                   ),
                   itemBuilder: _buildGridItems,
-                  itemCount: widget.squareLength * widget.squareLength,
+                  itemCount: _squareLength * _squareLength,
                 ),
                 Stack(
-                  children: v,
+                  children: _v,
                 ),
               ],
             ),
@@ -115,8 +128,8 @@ class GameViewState extends State<GameView> {
 
   Widget _buildGridItems(BuildContext context, int index) {
     int x, y = 0;
-    x = (index / widget.squareLength).floor();
-    y = (index % widget.squareLength);
+    x = (index / _squareLength).floor();
+    y = (index % _squareLength);
     return _buildGridItem(x, y);
   }
 
@@ -128,6 +141,7 @@ class GameViewState extends State<GameView> {
         final sizeRed = r.size;
         final positionRed = r.localToGlobal(Offset.zero);
         print("$row $col -- $sizeRed -- $positionRed ");
+        _gridSizes[row][col] = r;
       },
     );
   }
