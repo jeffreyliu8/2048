@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:game2048/2048gamePiece.dart';
 import 'package:swipedetector/swipedetector.dart';
@@ -24,25 +26,33 @@ class GameViewState extends State<GameView> {
   int _squareLength = 0;
   int _score = 0;
   List<Widget> _v = [];
-  List<List<RenderBox>> _gridSizes = [];
+  List<double> _gridX = [];
+  List<double> _gridY = [];
+  Size _tileSize;
+
   ScoreChangedCallback _onScoreChanged;
+  GlobalKey _key = GlobalKey();
 
   GameViewState(this._squareLength, this._onScoreChanged) {
-    List<RenderBox> temp = [];
     for (var i = 0; i < _squareLength; i++) {
-      temp.add(null);
-    }
-    for (var i = 0; i < _squareLength; i++) {
-      _gridSizes.add(temp);
+      _gridX.add(null);
+      _gridY.add(null);
     }
   }
 
   void newGame() {
+    var rng = new Random();
+    int randomRow = rng.nextInt(_squareLength);
+    int randomCol = rng.nextInt(_squareLength);
+
+    clearTiles();
+
     setState(() {
       _score = 0;
       if (_onScoreChanged != null) {
         _onScoreChanged(_score);
       }
+      _v.add(_buildTile(randomCol, randomRow));
     });
   }
 
@@ -93,6 +103,7 @@ class GameViewState extends State<GameView> {
                   itemCount: _squareLength * _squareLength,
                 ),
                 Stack(
+                  key: _key,
                   children: _v,
                 ),
               ],
@@ -110,7 +121,6 @@ class GameViewState extends State<GameView> {
       },
       onSwipeLeft: () {
         print("left");
-        addTile();
       },
       onSwipeRight: () {
         print("right");
@@ -128,21 +138,56 @@ class GameViewState extends State<GameView> {
 
   Widget _buildGridItems(BuildContext context, int index) {
     int x, y = 0;
-    x = (index / _squareLength).floor();
-    y = (index % _squareLength);
+    y = (index / _squareLength).floor();
+    x = (index % _squareLength);
     return _buildGridItem(x, y);
   }
 
-  Widget _buildGridItem(int x, int y) {
+  Widget _buildGridItem(int col, int row) {
     return GameBgPieceView(
-      row: y,
-      col: x,
+      col: col,
+      row: row,
       onRendered: (int row, int col, RenderBox r) {
-        final sizeRed = r.size;
-        final positionRed = r.localToGlobal(Offset.zero);
-        print("$row $col -- $sizeRed -- $positionRed ");
-        _gridSizes[row][col] = r;
+        if (_tileSize == null) {
+          _tileSize = r.size;
+        }
+
+        final positionX = r.localToGlobal(Offset.zero).dx;
+        final positionY = r.localToGlobal(Offset.zero).dy;
+//        print("$col $row -- $positionX  -- $positionY ");
+
+        if (_gridX[col] == null) {
+          _gridX[col] = positionX;
+        }
+        if (_gridY[row] == null) {
+          _gridY[row] = positionY;
+        }
+
+        if (row == _squareLength - 1 && col == _squareLength - 1) {
+          newGame();
+        }
       },
     );
+  }
+
+  Widget _buildTile(int col, int row) {
+    double x = _gridX[col];
+    double y = _gridY[row];
+
+    RenderBox selfBox = _key.currentContext.findRenderObject();
+    double sx = selfBox.localToGlobal(Offset.zero).dx;
+    double sy = selfBox.localToGlobal(Offset.zero).dy;
+
+    return Positioned(
+        width: _tileSize.width,
+        height: _tileSize.height,
+        top: x - sx,
+        left: y - sy,
+        child: Container(
+          color: Colors.black38,
+          child: FlutterLogo(
+            colors: Colors.indigo,
+          ),
+        ));
   }
 }
