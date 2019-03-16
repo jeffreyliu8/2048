@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:game2048/2048gamePiece.dart';
+import 'package:game2048/game.dart';
 import 'package:swipedetector/swipedetector.dart';
 
 typedef void ScoreChangedCallback(int score);
@@ -29,6 +30,11 @@ class GameViewState extends State<GameView> {
   List<double> _gridX = [];
   List<double> _gridY = [];
   Size _tileSize;
+  Game game;
+
+  void _boardChangedCallback(List<List<int>> board) {
+    drawBoard(board);
+  }
 
   ScoreChangedCallback _onScoreChanged;
   GlobalKey _key = GlobalKey();
@@ -41,18 +47,18 @@ class GameViewState extends State<GameView> {
   }
 
   void newGame() {
-    var rng = new Random();
-    int randomRow = rng.nextInt(_squareLength);
-    int randomCol = rng.nextInt(_squareLength);
+    game = Game(_squareLength, _onScoreChanged, _boardChangedCallback);
+    game.startGame();
+  }
 
-    clearTiles();
-
+  void drawBoard(List<List<int>> board) {
     setState(() {
-      _score = 0;
-      if (_onScoreChanged != null) {
-        _onScoreChanged(_score);
+      _v.clear();
+      for (var col = 0; col < board.length; col++) {
+        for (var row = 0; row < board[col].length; row++) {
+          _v.add(_buildTile(col, row, board[col][row]));
+        }
       }
-      _v.add(_buildTile(randomCol, randomRow));
     });
   }
 
@@ -62,22 +68,6 @@ class GameViewState extends State<GameView> {
       if (_onScoreChanged != null) {
         _onScoreChanged(_score);
       }
-    });
-  }
-
-  void addTile() {
-    setState(() {
-      _v.add(
-        Positioned(
-          child: FlutterLogo(),
-        ),
-      );
-    });
-  }
-
-  void clearTiles() {
-    setState(() {
-      _v.clear();
     });
   }
 
@@ -117,14 +107,12 @@ class GameViewState extends State<GameView> {
       },
       onSwipeDown: () {
         print("down");
-        newGame();
       },
       onSwipeLeft: () {
         print("left");
       },
       onSwipeRight: () {
         print("right");
-        clearTiles();
       },
       swipeConfiguration: SwipeConfiguration(
           verticalSwipeMinVelocity: 15.0,
@@ -170,7 +158,7 @@ class GameViewState extends State<GameView> {
     );
   }
 
-  Widget _buildTile(int col, int row) {
+  Widget _buildTile(int col, int row, int value) {
     double x = _gridX[col];
     double y = _gridY[row];
 
@@ -178,16 +166,23 @@ class GameViewState extends State<GameView> {
     double sx = selfBox.localToGlobal(Offset.zero).dx;
     double sy = selfBox.localToGlobal(Offset.zero).dy;
 
-    return Positioned(
-        width: _tileSize.width,
-        height: _tileSize.height,
-        top: x - sx,
-        left: y - sy,
-        child: Container(
-          color: Colors.black38,
-          child: FlutterLogo(
-            colors: Colors.indigo,
-          ),
-        ));
+    if (value > 0) {
+      print("building tile $col $row $value");
+      return Positioned(
+          width: _tileSize.width,
+          height: _tileSize.height,
+          top: x - sx,
+          left: y - sy,
+          child: Container(
+            color: Colors.black38,
+            child: Center(
+              child: Text(
+                value.toString(),
+              ),
+            ),
+          ));
+    } else {
+      return Container();
+    }
   }
 }
