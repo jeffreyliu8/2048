@@ -24,11 +24,35 @@ class Game {
 
   void startGame() {
     clear();
+
+    _Position pos = selectRandomTile();
+
+    if (pos != null) {
+      var rng = new Random();
+      int randomValue = rng.nextInt(2) + 1;
+      setTile(pos.x, pos.y, randomValue);
+    }
+  }
+
+  _Position selectRandomTile() {
+    List<_Position> pos = [];
+    for (var i = 0; i < _board.length; i++) { // row
+      for (var j = 0; j < _board[i].length; j++) { // col
+        if (_board[i][j] == 0) {
+          print("adding  " + j.toString() +" " + i.toString());
+          pos.add(_Position(j, i));
+        }
+      }
+    }
+
+    if (pos.length == 0) {
+      return null;
+    }
+    print("size is " + pos.length.toString());
+
     var rng = new Random();
-    int col = rng.nextInt(_squareLength);
-    int row = rng.nextInt(_squareLength);
-    int randomValue = rng.nextInt(2) + 1;
-    setTile(col, row, randomValue);
+    int index = rng.nextInt(pos.length);
+    return pos[index];
   }
 
   void clear() {
@@ -66,39 +90,64 @@ class Game {
   void goLeft() {
     for (var i = 0; i < _board.length; i++) {
       List<int> row = _board[i];
-      int right = 0;
-      int left = 0;
-      while (right < row.length) {
-        if (row[right] == 0 || left == right) {
-          //skip
-        } else {
-          row[left] = row[right];
-          row[right] = 0;
-          left++;
+      List<int> temp = List(row.length);
+
+      for (var j = 0; j < row.length; j++) {
+        temp[j] = 0;
+      }
+
+      int j = 0;
+      for (int value in row) {
+        if (value != 0) {
+          temp[j] = value;
+          j++;
         }
-        right++;
+      }
+
+      for (var j = 0; j < row.length; j++) {
+        row[j] = temp[j];
       }
     }
-    notifyBoardChanged();
+
+    _Position pos = selectRandomTile();
+    if (pos != null) {
+      var rng = new Random();
+      int randomValue = rng.nextInt(2) + 1;
+      setTile(pos.x, pos.y, randomValue);
+    } else {
+      print("no more empty space!");
+    }
   }
 
   void goRight() {
     for (var i = 0; i < _board.length; i++) {
       List<int> row = _board[i];
-      int left = row.length - 1;
-      int right = row.length - 1;
-      while (left >= 0) {
-        if (row[left] == 0 || left == right) {
-          //skip
-        } else {
-          row[right] = row[left];
-          row[left] = 0;
-          right--;
+      List<int> temp = List(row.length);
+      for (var j = 0; j < row.length; j++) {
+        temp[j] = 0;
+      }
+
+      int g = row.length - 1;
+      for (var j = row.length - 1; j >= 0; j--) {
+        if (row[j] != 0) {
+          temp[g] = row[j];
+          g--;
         }
-        left--;
+      }
+
+      for (var j = 0; j < row.length; j++) {
+        row[j] = temp[j];
       }
     }
-    notifyBoardChanged();
+
+    _Position pos = selectRandomTile();
+    if (pos != null) {
+      var rng = new Random();
+      int randomValue = rng.nextInt(2) + 1;
+      setTile(pos.x, pos.y, randomValue);
+    } else {
+      print("no more empty space!");
+    }
   }
 
   void goTop() {
@@ -116,7 +165,15 @@ class Game {
         bottom++;
       }
     }
-    notifyBoardChanged();
+
+    _Position pos = selectRandomTile();
+    if (pos != null) {
+      var rng = new Random();
+      int randomValue = rng.nextInt(2) + 1;
+      setTile(pos.x, pos.y, randomValue);
+    } else {
+      print("no more empty space!");
+    }
   }
 
   void goBottom() {
@@ -134,7 +191,15 @@ class Game {
         top--;
       }
     }
-    notifyBoardChanged();
+
+    _Position pos = selectRandomTile();
+    if (pos != null) {
+      var rng = new Random();
+      int randomValue = rng.nextInt(2) + 1;
+      setTile(pos.x, pos.y, randomValue);
+    } else {
+      print("no more empty space!");
+    }
   }
 
   printBoard() {
@@ -149,4 +214,11 @@ class Game {
     }
     print("===========");
   }
+}
+
+class _Position {
+  int x;
+  int y;
+
+  _Position(this.x, this.y);
 }

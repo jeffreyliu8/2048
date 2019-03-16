@@ -166,7 +166,7 @@ class GameViewState extends State<GameView> {
     double sy = selfBox.localToGlobal(Offset.zero).dy;
 
     if (value > 0) {
-      print("building tile $col $row $value");
+//      print("building tile $col $row $value");
       return Positioned(
           width: _tileSize.width,
           height: _tileSize.height,
