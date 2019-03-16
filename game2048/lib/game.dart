@@ -37,27 +37,19 @@ class Game {
         _board[i][j] = 0;
       }
     }
-    if (_onBoardChanged != null) {
-      _onBoardChanged(_board);
-    }
+    notifyBoardChanged();
   }
 
   void setTile(int x, int y, int value) {
-
     print("setting $x $y $value");
     _board[y][x] = value;
 
-    print("====after set=======");
-    for (var i = 0; i < _board.length; i++) {
-      String row = "";
-      for (var j = 0; j < _board[i].length; j++) {
-        int v = _board[i][j];
-        row = row + " " + v.toString();
-      }
-      print(row);
-    }
-    print("====end=======");
+    printBoard();
 
+    notifyBoardChanged();
+  }
+
+  void notifyBoardChanged() {
     if (_onBoardChanged != null) {
       _onBoardChanged(_board);
     }
@@ -69,5 +61,62 @@ class Game {
 
   List<List<int>> getBoard() {
     return _board;
+  }
+
+  void goLeft() {
+    printBoard();
+    for (var i = 0; i < _board.length; i++) {
+      List<int> row = _board[i];
+      int right = 0;
+      int left = 0;
+      while (right < row.length) {
+        print(right);
+        if (row[right] == 0) {
+          right++;
+        } else {
+          row[left] = row[right];
+          row[right] = 0;
+          right++;
+          left++;
+        }
+      }
+    }
+    notifyBoardChanged();
+  }
+
+  void goRight() {
+    for (var i = 0; i < _board.length; i++) {
+      List<int> row = _board[i];
+      int left = row.length - 1;
+      int right = row.length - 1;
+      while (left >= 0) {
+        if (row[left] == 0) {
+          left--;
+        } else {
+          row[right] = row[left];
+          row[left] = 0;
+          right--;
+          left--;
+        }
+      }
+    }
+    notifyBoardChanged();
+  }
+
+  void goTop() {}
+
+  void goBottom() {}
+
+  printBoard() {
+    print("===========");
+    for (var i = 0; i < _board.length; i++) {
+      String row = "";
+      for (var j = 0; j < _board[i].length; j++) {
+        int v = _board[i][j];
+        row = row + " " + v.toString();
+      }
+      print(row);
+    }
+    print("===========");
   }
 }

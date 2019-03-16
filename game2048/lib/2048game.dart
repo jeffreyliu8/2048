@@ -102,17 +102,16 @@ class GameViewState extends State<GameView> {
         ),
       ),
       onSwipeUp: () {
-        print("Up");
-        increaseScore();
+        game.goTop();
       },
       onSwipeDown: () {
-        print("down");
+        game.goBottom();
       },
       onSwipeLeft: () {
-        print("left");
+        game.goLeft();
       },
       onSwipeRight: () {
-        print("right");
+        game.goRight();
       },
       swipeConfiguration: SwipeConfiguration(
           verticalSwipeMinVelocity: 15.0,
