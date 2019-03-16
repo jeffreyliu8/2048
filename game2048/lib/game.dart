@@ -64,21 +64,19 @@ class Game {
   }
 
   void goLeft() {
-    printBoard();
     for (var i = 0; i < _board.length; i++) {
       List<int> row = _board[i];
       int right = 0;
       int left = 0;
       while (right < row.length) {
-        print(right);
-        if (row[right] == 0) {
-          right++;
+        if (row[right] == 0 || left == right) {
+          //skip
         } else {
           row[left] = row[right];
           row[right] = 0;
-          right++;
           left++;
         }
+        right++;
       }
     }
     notifyBoardChanged();
@@ -90,22 +88,54 @@ class Game {
       int left = row.length - 1;
       int right = row.length - 1;
       while (left >= 0) {
-        if (row[left] == 0) {
-          left--;
+        if (row[left] == 0 || left == right) {
+          //skip
         } else {
           row[right] = row[left];
           row[left] = 0;
           right--;
-          left--;
         }
+        left--;
       }
     }
     notifyBoardChanged();
   }
 
-  void goTop() {}
+  void goTop() {
+    for (var col = 0; col < _board.length; col++) {
+      int top = 0;
+      int bottom = 0;
+      while (bottom < _board.length) {
+        if (_board[bottom][col] == 0 || top == bottom) {
+          //skip
+        } else {
+          _board[top][col] = _board[bottom][col];
+          _board[bottom][col] = 0;
+          top++;
+        }
+        bottom++;
+      }
+    }
+    notifyBoardChanged();
+  }
 
-  void goBottom() {}
+  void goBottom() {
+    for (var col = 0; col < _board.length; col++) {
+      int top = _board.length - 1;
+      int bottom = _board.length - 1;
+      while (top >= 0) {
+        if (_board[top][col] == 0 || top == bottom) {
+          //skip
+        } else {
+          _board[bottom][col] = _board[top][col];
+          _board[top][col] = 0;
+          bottom--;
+        }
+        top--;
+      }
+    }
+    notifyBoardChanged();
+  }
 
   printBoard() {
     print("===========");
