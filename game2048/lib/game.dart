@@ -36,10 +36,12 @@ class Game {
 
   _Position selectRandomTile() {
     List<_Position> pos = [];
-    for (var i = 0; i < _board.length; i++) { // row
-      for (var j = 0; j < _board[i].length; j++) { // col
+    for (var i = 0; i < _board.length; i++) {
+      // row
+      for (var j = 0; j < _board[i].length; j++) {
+        // col
         if (_board[i][j] == 0) {
-          print("adding  " + j.toString() +" " + i.toString());
+          print("adding  " + j.toString() + " " + i.toString());
           pos.add(_Position(j, i));
         }
       }
@@ -152,17 +154,22 @@ class Game {
 
   void goTop() {
     for (var col = 0; col < _board.length; col++) {
-      int top = 0;
-      int bottom = 0;
-      while (bottom < _board.length) {
-        if (_board[bottom][col] == 0 || top == bottom) {
-          //skip
-        } else {
-          _board[top][col] = _board[bottom][col];
-          _board[bottom][col] = 0;
-          top++;
+      List<int> temp = List(_squareLength);
+
+      for (var j = 0; j < _squareLength; j++) {
+        temp[j] = 0;
+      }
+
+      int g = 0;
+      for (var j = 0; j < _squareLength; j++) {
+        if (_board[j][col] != 0) {
+          temp[g] = _board[j][col];
+          g++;
         }
-        bottom++;
+      }
+
+      for (var j = 0; j < _squareLength; j++) {
+        _board[j][col] = temp[j];
       }
     }
 
@@ -178,17 +185,22 @@ class Game {
 
   void goBottom() {
     for (var col = 0; col < _board.length; col++) {
-      int top = _board.length - 1;
-      int bottom = _board.length - 1;
-      while (top >= 0) {
-        if (_board[top][col] == 0 || top == bottom) {
-          //skip
-        } else {
-          _board[bottom][col] = _board[top][col];
-          _board[top][col] = 0;
-          bottom--;
+      List<int> temp = List(_squareLength);
+
+      for (var j = 0; j < _squareLength; j++) {
+        temp[j] = 0;
+      }
+
+      int g = _squareLength-1;
+      for (var j = _squareLength-1; j>=0; j--) {
+        if (_board[j][col] != 0) {
+          temp[g] = _board[j][col];
+          g--;
         }
-        top--;
+      }
+
+      for (var j = _squareLength - 1; j >= 0; j--) {
+        _board[j][col] = temp[j];
       }
     }
 
