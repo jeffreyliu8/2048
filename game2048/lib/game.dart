@@ -90,6 +90,23 @@ class Game {
   }
 
   void goLeft() {
+    goLeftRemoveSpace();
+
+    goLeftMerge();
+
+    goLeftRemoveSpace();
+
+    _Position pos = selectRandomTile();
+    if (pos != null) {
+      var rng = new Random();
+      int randomValue = rng.nextInt(2) + 1;
+      setTile(pos.x, pos.y, randomValue);
+    } else {
+      print("no more empty space!");
+    }
+  }
+
+  void goLeftRemoveSpace() {
     for (var i = 0; i < _board.length; i++) {
       List<int> row = _board[i];
       List<int> temp = List(row.length);
@@ -110,6 +127,34 @@ class Game {
         row[j] = temp[j];
       }
     }
+  }
+
+  void goLeftMerge() {
+    for (var i = 0; i < _board.length; i++) {
+      List<int> row = _board[i];
+
+      int start = 0;
+      int end = start + 1;
+      while (start < _squareLength && end < _squareLength) {
+        if (row[start] == row[end]) {
+          row[start] = row[start] + row[end];
+          row[end] = 0;
+          start = start + 2;
+          end = end + 2;
+        } else {
+          start++;
+          end++;
+        }
+      }
+    }
+  }
+
+  void goRight() {
+    goRightRemoveSpace();
+
+    goRightMerge();
+
+    goRightRemoveSpace();
 
     _Position pos = selectRandomTile();
     if (pos != null) {
@@ -121,7 +166,7 @@ class Game {
     }
   }
 
-  void goRight() {
+  void goRightRemoveSpace() {
     for (var i = 0; i < _board.length; i++) {
       List<int> row = _board[i];
       List<int> temp = List(row.length);
@@ -141,14 +186,25 @@ class Game {
         row[j] = temp[j];
       }
     }
+  }
 
-    _Position pos = selectRandomTile();
-    if (pos != null) {
-      var rng = new Random();
-      int randomValue = rng.nextInt(2) + 1;
-      setTile(pos.x, pos.y, randomValue);
-    } else {
-      print("no more empty space!");
+  void goRightMerge() {
+    for (var i = 0; i < _board.length; i++) {
+      List<int> row = _board[i];
+
+      int start = _squareLength - 1;
+      int end = start - 1;
+      while (start >= 0 && end >= 0) {
+        if (row[start] == row[end]) {
+          row[start] = row[start] + row[end];
+          row[end] = 0;
+          start = start - 2;
+          end = end - 2;
+        } else {
+          start--;
+          end--;
+        }
+      }
     }
   }
 
@@ -191,8 +247,8 @@ class Game {
         temp[j] = 0;
       }
 
-      int g = _squareLength-1;
-      for (var j = _squareLength-1; j>=0; j--) {
+      int g = _squareLength - 1;
+      for (var j = _squareLength - 1; j >= 0; j--) {
         if (_board[j][col] != 0) {
           temp[g] = _board[j][col];
           g--;
