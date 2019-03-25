@@ -91,9 +91,7 @@ class Game {
 
   void goLeft() {
     goLeftRemoveSpace();
-
     goLeftMerge();
-
     goLeftRemoveSpace();
 
     _Position pos = selectRandomTile();
@@ -151,9 +149,7 @@ class Game {
 
   void goRight() {
     goRightRemoveSpace();
-
     goRightMerge();
-
     goRightRemoveSpace();
 
     _Position pos = selectRandomTile();
@@ -209,6 +205,21 @@ class Game {
   }
 
   void goTop() {
+    goTopRemoveSpace();
+    goTopMerge();
+    goTopRemoveSpace();
+
+    _Position pos = selectRandomTile();
+    if (pos != null) {
+      var rng = new Random();
+      int randomValue = rng.nextInt(2) + 1;
+      setTile(pos.x, pos.y, randomValue);
+    } else {
+      print("no more empty space!");
+    }
+  }
+
+  void goTopRemoveSpace() {
     for (var col = 0; col < _board.length; col++) {
       List<int> temp = List(_squareLength);
 
@@ -228,6 +239,30 @@ class Game {
         _board[j][col] = temp[j];
       }
     }
+  }
+
+  void goTopMerge() {
+    for (var col = 0; col < _board.length; col++) {
+      int start = 0;
+      int end = start + 1;
+      while (start < _squareLength && end < _squareLength) {
+        if (_board[start][col] == _board[end][col]) {
+          _board[start][col] = _board[start][col] + _board[end][col];
+          _board[end][col] = 0;
+          start = start + 2;
+          end = end + 2;
+        } else {
+          start++;
+          end++;
+        }
+      }
+    }
+  }
+
+  void goBottom() {
+    goBottomRemoveSpace();
+    goBottomMerge();
+    goBottomRemoveSpace();
 
     _Position pos = selectRandomTile();
     if (pos != null) {
@@ -239,7 +274,7 @@ class Game {
     }
   }
 
-  void goBottom() {
+  void goBottomRemoveSpace() {
     for (var col = 0; col < _board.length; col++) {
       List<int> temp = List(_squareLength);
 
@@ -259,14 +294,23 @@ class Game {
         _board[j][col] = temp[j];
       }
     }
+  }
 
-    _Position pos = selectRandomTile();
-    if (pos != null) {
-      var rng = new Random();
-      int randomValue = rng.nextInt(2) + 1;
-      setTile(pos.x, pos.y, randomValue);
-    } else {
-      print("no more empty space!");
+  void goBottomMerge() {
+    for (var col = 0; col < _board.length; col++) {
+      int start = _squareLength - 1;
+      int end = start - 1;
+      while (start >= 0 && end >= 0) {
+        if (_board[start][col] == _board[end][col]) {
+          _board[start][col] = _board[start][col] + _board[end][col];
+          _board[end][col] = 0;
+          start = start - 2;
+          end = end - 2;
+        } else {
+          start--;
+          end--;
+        }
+      }
     }
   }
 
