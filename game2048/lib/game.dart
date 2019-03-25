@@ -2,15 +2,18 @@ import 'dart:math';
 
 typedef void ScoreChangedCallback(int score);
 typedef void BoardChangedCallback(List<List<int>> board);
+typedef void WinLoseStateChangedCallback(bool isWin);
 
 class Game {
   int _score = 0;
   final int _squareLength;
   final ScoreChangedCallback _onScoreChanged;
   final BoardChangedCallback _onBoardChanged;
+  final WinLoseStateChangedCallback _onWinLoseChanged;
   List<List<int>> _board;
 
-  Game(this._squareLength, this._onScoreChanged, this._onBoardChanged) {
+  Game(this._squareLength, this._onScoreChanged, this._onBoardChanged,
+      this._onWinLoseChanged) {
     _board = [];
 
     for (var i = 0; i < _squareLength; i++) {
@@ -75,14 +78,65 @@ class Game {
     notifyBoardChanged();
   }
 
+  void checkWin() {
+    // check win
+    for (var i = 0; i < _board.length; i++) {
+      for (var j = 0; j < _board[i].length; j++) {
+        if (_board[i][j] == 2048) {
+          notifyWinLose(true);
+          return;
+        }
+      }
+    }
+  }
+
+  void checkLose() {
+    //check lose, here we are assuming the board is already full
+    for (var i = 0; i < _board.length; i++) {
+      for (var j = 0; j < _board[i].length; j++) {
+        if (hasSameNonZeroNeighbor(i, j)) {
+          print(
+              "hasSameNonZeroNeighbor at " + i.toString() + " " + j.toString());
+          return;
+        }
+      }
+    }
+    notifyWinLose(false);
+  }
+
+  bool hasSameNonZeroNeighbor(int i, int j) {
+    if (_board[i][j] == 0) {
+      return true;
+    }
+
+    if (i - 1 >= 0 && _board[i - 1][j] == _board[i][j]) {
+      return true;
+    }
+
+    if (i + 1 < _squareLength && _board[i + 1][j] == _board[i][j]) {
+      return true;
+    }
+
+    if (j - 1 >= 0 && _board[i][j - 1] == _board[i][j]) {
+      return true;
+    }
+
+    if (j + 1 < _squareLength && _board[i][j + 1] == _board[i][j]) {
+      return true;
+    }
+    return false;
+  }
+
   void notifyBoardChanged() {
     if (_onBoardChanged != null) {
       _onBoardChanged(_board);
     }
   }
 
-  bool checkWin() {
-    return false;
+  void notifyWinLose(bool isWin) {
+    if (_onWinLoseChanged != null) {
+      _onWinLoseChanged(isWin);
+    }
   }
 
   List<List<int>> getBoard() {
@@ -93,6 +147,7 @@ class Game {
     goLeftRemoveSpace();
     goLeftMerge();
     goLeftRemoveSpace();
+    checkWin();
 
     _Position pos = selectRandomTile();
     if (pos != null) {
@@ -101,6 +156,7 @@ class Game {
       setTile(pos.x, pos.y, randomValue);
     } else {
       print("no more empty space!");
+      checkLose();
     }
   }
 
@@ -151,6 +207,7 @@ class Game {
     goRightRemoveSpace();
     goRightMerge();
     goRightRemoveSpace();
+    checkWin();
 
     _Position pos = selectRandomTile();
     if (pos != null) {
@@ -159,6 +216,7 @@ class Game {
       setTile(pos.x, pos.y, randomValue);
     } else {
       print("no more empty space!");
+      checkLose();
     }
   }
 
@@ -208,6 +266,7 @@ class Game {
     goTopRemoveSpace();
     goTopMerge();
     goTopRemoveSpace();
+    checkWin();
 
     _Position pos = selectRandomTile();
     if (pos != null) {
@@ -216,6 +275,7 @@ class Game {
       setTile(pos.x, pos.y, randomValue);
     } else {
       print("no more empty space!");
+      checkLose();
     }
   }
 
@@ -263,6 +323,7 @@ class Game {
     goBottomRemoveSpace();
     goBottomMerge();
     goBottomRemoveSpace();
+    checkWin();
 
     _Position pos = selectRandomTile();
     if (pos != null) {
@@ -271,6 +332,7 @@ class Game {
       setTile(pos.x, pos.y, randomValue);
     } else {
       print("no more empty space!");
+      checkLose();
     }
   }
 

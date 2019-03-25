@@ -6,20 +6,23 @@ import 'package:game2048/game.dart';
 import 'package:swipedetector/swipedetector.dart';
 
 typedef void ScoreChangedCallback(int score);
+typedef void WinLoseChangedCallback(bool state);
 
 class GameView extends StatefulWidget {
   const GameView({
     Key key,
     this.squareLength = 4,
     this.onScoreChanged,
+    this.onWinLoseChanged,
   }) : super(key: key);
 
   final int squareLength;
   final ScoreChangedCallback onScoreChanged;
+  final WinLoseChangedCallback onWinLoseChanged;
 
   @override
   State<StatefulWidget> createState() {
-    return GameViewState(squareLength, onScoreChanged);
+    return GameViewState(squareLength, onScoreChanged, onWinLoseChanged);
   }
 }
 
@@ -37,9 +40,11 @@ class GameViewState extends State<GameView> {
   }
 
   ScoreChangedCallback _onScoreChanged;
+  WinLoseChangedCallback _onWinLoseChanged;
   GlobalKey _key = GlobalKey();
 
-  GameViewState(this._squareLength, this._onScoreChanged) {
+  GameViewState(
+      this._squareLength, this._onScoreChanged, this._onWinLoseChanged) {
     for (var i = 0; i < _squareLength; i++) {
       _gridX.add(null);
       _gridY.add(null);
@@ -47,7 +52,8 @@ class GameViewState extends State<GameView> {
   }
 
   void newGame() {
-    game = Game(_squareLength, _onScoreChanged, _boardChangedCallback);
+    game = Game(_squareLength, _onScoreChanged, _boardChangedCallback,
+        _onWinLoseChanged);
     game.startGame();
   }
 

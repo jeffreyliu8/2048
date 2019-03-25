@@ -22,6 +22,50 @@ class _GameLayoutState extends State<GameLayoutView> {
     });
   }
 
+  void _handleWinLoseChanged(bool win) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        if (win) {
+          return AlertDialog(
+            title: Text("You Win!"),
+            content: Text("You got a 2048!"),
+            actions: <Widget>[
+              // usually buttons at the bottom of the dialog
+              new FlatButton(
+                child: Text("Close"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        }
+
+        return AlertDialog(
+          title: Text("You lose..."),
+          content: Text("Sorry, no more moves to play."),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            FlatButton(
+              child: Text("New Game"),
+              onPressed: () {
+                _key.currentState.newGame();
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   GlobalKey<GameViewState> _key = GlobalKey();
 
   @override
@@ -84,9 +128,7 @@ class _GameLayoutState extends State<GameLayoutView> {
                             fontSize: 20.0,
                           ),
                         ),
-                        onPressed: () => {
-                          _key.currentState.newGame()
-                        },
+                        onPressed: () => {_key.currentState.newGame()},
                       ),
                     ],
                   ),
@@ -106,6 +148,7 @@ class _GameLayoutState extends State<GameLayoutView> {
                 child: GameView(
                   key: _key,
                   onScoreChanged: _handleScoreChanged,
+                  onWinLoseChanged: _handleWinLoseChanged,
                 ),
               )),
             ),
