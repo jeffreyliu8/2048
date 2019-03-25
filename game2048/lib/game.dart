@@ -67,6 +67,8 @@ class Game {
       }
     }
     notifyBoardChanged();
+    _score = 0;
+    notifyScoreChanged();
   }
 
   void setTile(int x, int y, int value) {
@@ -133,6 +135,12 @@ class Game {
     }
   }
 
+  void notifyScoreChanged() {
+    if (_onScoreChanged != null) {
+      _onScoreChanged(_score);
+    }
+  }
+
   void notifyWinLose(bool isWin) {
     if (_onWinLoseChanged != null) {
       _onWinLoseChanged(isWin);
@@ -191,16 +199,19 @@ class Game {
       int end = start + 1;
       while (start < _squareLength && end < _squareLength) {
         if (row[start] == row[end]) {
+          int score = row[start];
           row[start] = row[start] + row[end];
           row[end] = 0;
           start = start + 2;
           end = end + 2;
+          _score = _score + score;
         } else {
           start++;
           end++;
         }
       }
     }
+    notifyScoreChanged();
   }
 
   void goRight() {
@@ -250,16 +261,19 @@ class Game {
       int end = start - 1;
       while (start >= 0 && end >= 0) {
         if (row[start] == row[end]) {
+          int score = row[start];
           row[start] = row[start] + row[end];
           row[end] = 0;
           start = start - 2;
           end = end - 2;
+          _score = _score + score;
         } else {
           start--;
           end--;
         }
       }
     }
+    notifyScoreChanged();
   }
 
   void goTop() {
@@ -307,16 +321,19 @@ class Game {
       int end = start + 1;
       while (start < _squareLength && end < _squareLength) {
         if (_board[start][col] == _board[end][col]) {
+          int score = _board[start][col];
           _board[start][col] = _board[start][col] + _board[end][col];
           _board[end][col] = 0;
           start = start + 2;
           end = end + 2;
+          _score = _score + score;
         } else {
           start++;
           end++;
         }
       }
     }
+    notifyScoreChanged();
   }
 
   void goBottom() {
@@ -364,16 +381,19 @@ class Game {
       int end = start - 1;
       while (start >= 0 && end >= 0) {
         if (_board[start][col] == _board[end][col]) {
+          int score = _board[start][col];
           _board[start][col] = _board[start][col] + _board[end][col];
           _board[end][col] = 0;
           start = start - 2;
           end = end - 2;
+          _score = _score + score;
         } else {
           start--;
           end--;
         }
       }
     }
+    notifyScoreChanged();
   }
 
   printBoard() {
