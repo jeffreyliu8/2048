@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'dart:async';
 import 'package:game2048/2048game.dart';
 import 'package:game2048/scoreview.dart';
 
@@ -15,8 +18,25 @@ class GameLayoutView extends StatefulWidget {
 
 class _GameLayoutState extends State<GameLayoutView> {
   int _currentScore = 0;
+  int _bestScore = 0;
+
+  Future<void> updateBestScorePref(int score) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int oldBestScore = prefs.getInt('bestScore') ?? 0;
+    if (score > oldBestScore) {
+      setState(() {
+        _bestScore = score;
+      });
+      await prefs.setInt('bestScore', score);
+    } else {
+      setState(() {
+        _bestScore = oldBestScore;
+      });
+    }
+  }
 
   void _handleScoreChanged(int score) {
+    updateBestScorePref(score);
     setState(() {
       _currentScore = score;
     });
@@ -100,6 +120,7 @@ class _GameLayoutState extends State<GameLayoutView> {
                       ),
                       ScoreView(
                         title: "Best",
+                        score: _bestScore,
                       ),
                     ],
                   ),
